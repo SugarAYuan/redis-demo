@@ -1,0 +1,7 @@
+# github.com/lestrrat-go/file-rotatelogs v2.2.0+incompatible
+github.com/lestrrat-go/file-rotatelogs
+github.com/lestrrat-go/file-rotatelogs/internal/option
+# github.com/lestrrat-go/strftime v0.0.0-20180821113735-8b31f9c59b0f
+github.com/lestrrat-go/strftime
+# github.com/pkg/errors v0.8.1
+github.com/pkg/errors
