@@ -19,6 +19,7 @@ func main() {
 	t := new(controller.TestOb)
 	t.RedisKey = "test_queue"
 	t.MaxWorker = 10
+	t.TestChan = make(chan string, t.MaxWorker)
 	go t.Test()
 
 	ch := make(chan os.Signal)

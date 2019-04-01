@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"sync"
 	"time"
 
 	"redisdemo/engine"
@@ -10,13 +11,14 @@ import (
 
 type TestOb struct {
 	MaxWorker int
-	TestChan chan string
-	RedisKey string
-	IsClose  bool
+	TestChan  chan string
+	RedisKey  string
+	IsClose   bool
+	mu        sync.RWMutex
 }
 
 func (t *TestOb) Test() {
-	t.TestChan = make(chan string, t.MaxWorker)
+
 	go func() {
 		for {
 			select {
@@ -32,12 +34,14 @@ func (t *TestOb) Test() {
 FORLABEL:
 	for {
 		select {
-		case <-time.Tick(5 * time.Second)://五秒检查一次队列中是否有任务
-			AGAIN:
+		case <-time.Tick(5 * time.Second): //五秒检查一次队列中是否有任务
+		AGAIN:
+			t.mu.Lock()
 			if t.IsClose {
+				t.mu.Unlock()
 				break FORLABEL
 			}
-
+			t.mu.Unlock()
 			count, err := cli.LLen(t.RedisKey).Result()
 			if err != nil {
 				tools.Log.Warn("get llen error ", err.Error())
@@ -65,7 +69,9 @@ FORLABEL:
 }
 
 func (t *TestOb) StopTest() {
+	t.mu.Lock()
 	t.IsClose = true
+	t.mu.Unlock()
 LABEL:
 	for {
 		select {
