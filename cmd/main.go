@@ -16,6 +16,7 @@ func main() {
 	tools.InitConfig()
 
 	engine.InitRedisEngine()
+	engine.InitMysql()
 	t := new(controller.TestOb)
 	t.RedisKey = "test_queue"
 	t.MaxWorker = 10

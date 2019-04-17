@@ -7,3 +7,10 @@
 
 [log]
     filepath = ""
+
+[mysql]
+  dsn = 'root:root@tcp(127.0.0.1:3306)/test?charset=utf8&parseTime=true'
+  idle_conns =  100
+  max_conns =  3000
+  idle_timeout =  600
+  open_orm_stdout = true

@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"redisdemo/model"
 	"sync"
 	"time"
 
@@ -26,6 +27,11 @@ func (t *TestOb) Test() {
 				tools.Log.Info("当前channel 数据长度为：", len(t.TestChan))
 				time.Sleep(5 * time.Second) //模拟处理任务耗时
 				fmt.Println(d, "-----------")
+				test := new(model.Test)
+				test.Name = d
+				if err := test.InsertOne(); err != nil {
+					tools.Log.Error(err)
+				}
 			}
 		}
 	}()

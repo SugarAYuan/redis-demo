@@ -7,15 +7,15 @@ import (
 
 var RedisCli *redis.Client
 
-func InitRedisEngine () {
+func InitRedisEngine() {
 	options := &redis.Options{
-		Addr:tools.Config.GetString("redis.host"),
-		Password:tools.Config.GetString("redis.password"),
-		DB:tools.Config.GetInt("redis.db"),
-		PoolSize:tools.Config.GetInt("redis.max_idle"),
+		Addr:     tools.Config.GetString("redis.host"),
+		Password: tools.Config.GetString("redis.password"),
+		DB:       tools.Config.GetInt("redis.db"),
+		PoolSize: tools.Config.GetInt("redis.max_idle"),
 	}
 	RedisCli = redis.NewClient(options)
-	if _ , err := RedisCli.Ping().Result(); err != nil {
+	if _, err := RedisCli.Ping().Result(); err != nil {
 		panic(err)
 	}
 
